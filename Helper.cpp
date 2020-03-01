@@ -7,11 +7,6 @@
 
 #include "Helper.h"
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
-#include <map>
 using namespace LEETCODE::HELPER;
 
 ListNode *LEETCODE::HELPER::CreateListImpl(const std::vector<int> &vec)
