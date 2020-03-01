@@ -6,6 +6,8 @@
 */
 
 #include "Helper.h"
+#include "Solution.h"
+
 using namespace std;
 using namespace LEETCODE::HELPER;
 
@@ -37,7 +39,7 @@ int TestHelper()
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     
     // [[2.123,0.234,34], [2.123,0.234,34], [2.123,0.234,34]]
-    string inputFloatMat = R"([[2.123,0.234,34], [2.123,0.234,34], [2.123,0.234,34]])";
+    string inputFloatMat = R"([[-2.123,0.234,34], [2.123,0.234,34], [-2.123,0.234,34]])";
     auto floatMat = CreateMatrix<float>(inputFloatMat);
     PrintMatrix(floatMat);
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
@@ -47,8 +49,8 @@ int TestHelper()
     DestroyList(head);
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
 
-    string inputTree = "[1, 2, 3, 4, null, 5, 6]";
-    string inputTree2 = "[1, 2, 3, 4, null, 5, 6, 7, 8, 9, 10, 11, 12]";
+    string inputTree = "[1, -2, 3, 4, null, 5, 6]";
+    string inputTree2 = "[1, -2, 3, 4, null, 5, 6, 7, 8, 9, 10, 11, 12]";
     TreeNode *root = CreateTree(inputTree2);
     PrintTree(root);
     DestroyTree(root);
@@ -59,7 +61,12 @@ int TestHelper()
 
 int main()
 {
-    TestHelper();
+    // TestHelper();
+
+    Solution so;
+    auto input = CreateList("[1,2,3,4,5]");
+    auto output = so.reverseList(input);
+    PrintList(output);
 
     system("pause");
     return 0;
