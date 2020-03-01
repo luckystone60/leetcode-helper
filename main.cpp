@@ -1,13 +1,15 @@
 /*
-* Copyright (c) Jiaoleilei Technologies Co., Ltd. 2012-2018. All right reserved.
-* Description: main.cpp 文件功能描述
-* Author：焦磊磊
+* Copyright (c) luckystone60 Technologies Co., Ltd. 2012-2018. All right reserved.
+* Description: main.cpp
+* Author：luckystone60
 * Create：2020-03-01
 */
+
 #include "Helper.h"
 using namespace std;
+using namespace LEETCODE::HELPER;
 
-int main()
+int TestHelper()
 {
     int intTest = 0;
     float floatTest = 0.0f;
@@ -51,6 +53,13 @@ int main()
     PrintTree(root);
     DestroyTree(root);
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
+
+    return 0;
+}
+
+int main()
+{
+    TestHelper();
 
     system("pause");
     return 0;

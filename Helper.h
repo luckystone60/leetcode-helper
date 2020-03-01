@@ -1,9 +1,10 @@
 /*
-* Copyright (c) Jiaoleilei Technologies Co., Ltd. 2012-2018. All right reserved.
-* Description: Helper.h 文件功能描述
-* Author：焦磊磊
+* Copyright (c) luckystone60 Technologies Co., Ltd. 2012-2018. All right reserved.
+* Description: Helper.h
+* Author：luckystone60
 * Create：2020-03-01
 */
+
 #ifndef LEETCODE_HEAD
 #define LEETCODE_HEAD
 
@@ -15,25 +16,29 @@
 #include <regex>
 #include <sstream>
 
+namespace LEETCODE
+{
+namespace HELPER
+{
 /*******************************
 0. data structure
 *******************************/
 // list Node
 struct ListNode
 {
-	int val;
-	ListNode *next;
-	ListNode(int x) : val(x), next(NULL) {}
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
 };
 
 // tree Node
-const int32_t TREE_NODE_BOUNDNARY = INT_MIN + 1;    // replace null
-struct TreeNode 
+const int32_t TREE_NODE_BOUNDNARY = INT_MIN + 1; // replace null
+struct TreeNode
 {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x=0) : val(x), left(NULL), right(NULL) {}
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x = 0) : val(x), left(NULL), right(NULL) {}
 };
 
 /*******************************
@@ -86,97 +91,23 @@ std::vector<std::vector<T>> CreateMatrix(const std::string inputStr)
     return ret;
 }
 
-ListNode *CreateListImpl(const std::vector<int> &vec)
-{
-	size_t count = vec.size();
-    ListNode *head, *curr;
+ListNode *CreateListImpl(const std::vector<int> &vec);
 
-	if (count == 0) {
-		return nullptr;
-	}
+ListNode *CreateList(const std::string &inputStr);
 
-    head = new ListNode(vec[0]);
-    curr = head;
-    for (size_t i = 1; i < count; i++) {
-        ListNode *temp = new ListNode(vec[i]);
-        curr->next = temp;
-        curr = temp;
-    }
-    return head;
-}
+void DestroyList(ListNode *head);
 
-ListNode *CreateList(const std::string &inputStr)
-{
-	auto vec = CreateVector<int>(inputStr);
-    return CreateListImpl(vec);
-}
+TreeNode *CreateTreeImpl(const std::vector<int> &vec);
 
-void DestroyList(ListNode *head)
-{
-    ListNode *curr = head;
-    ListNode *temp = NULL;
-    while (curr != NULL) {
-        temp = curr;
-        curr = curr->next;
-        delete temp;
-    }
-}
+TreeNode *CreateTree(const std::string &input);
 
-TreeNode *CreateTreeImpl(const std::vector<int> &vec)
-{
-	size_t count = vec.size();
-    TreeNode **treeArr = new TreeNode*[count];
-    for (size_t i = 0; i < count; i++)
-    {
-        if (TREE_NODE_BOUNDNARY == vec[i]) {
-			treeArr[i] = nullptr;
-		} else {
-            treeArr[i] = new TreeNode(vec[i]);
-		}
-	}
-
-    size_t curr = 1;
-    for (size_t i = 0; i<count; i++)
-    {
-        if( !treeArr[i] ) {
-            continue;
-		}
- 
-        if (curr < count) {
-            treeArr[i]->left = treeArr[curr++];
-		}
-        if (curr < count) {
-            treeArr[i]->right = treeArr[curr++];
-		}
-    }
-    
-    TreeNode *root = treeArr[0];
-    delete[] treeArr;
-    return root;
-}
-
-TreeNode *CreateTree(const std::string &input)
-{
-	auto root = CreateTreeImpl(CreateVector<int>(input));
-    return root;
-}
-
-void DestroyTree(TreeNode *root)
-{
-    if (nullptr == root) {
-        return;
-	}
-
-    DestroyTree(root->left);
-    DestroyTree(root->right);
-    delete root;
-}
+void DestroyTree(TreeNode *root);
 
 /*******************************
 2. print funcitons
 *******************************/
 template<typename T>
-void PrintValue(const T &value, const std::string message = "")
+void PrintValue(const T &value, const std::string message = "PrintValue")
 {
     std::cout << message << " " << value << std::endl;
 }
@@ -228,50 +159,14 @@ void PrintMatrix(const std::vector<std::vector<T>> &matrix, const std::string me
     std::cout << "]" << std::endl;
 }
 
-std::vector<int> TransListToVector(ListNode *head)
-{
-    std::vector<int> ret;
-    ListNode *node = head;
-    while (node) {
-        ret.push_back(node->val);
-        node = node->next;
-    }
+std::vector<int> TransListToVector(ListNode *head);
 
-    return ret;
-}
+void PrintList(ListNode *head);
 
-void PrintList(ListNode *head)
-{
-    auto vec = TransListToVector(head);
-    PrintVector(vec, "PrintList");
-}
+void PrintTreeImpl(TreeNode *n, bool left, std::string const &indent);
 
-void PrintTreeImpl(TreeNode* n, bool left, std::string const& indent)
-{
-    if (n->right)
-    {
-        PrintTreeImpl(n->right, false, indent + (left ? "|     " : "      "));
-    }
-    std::cout << indent;
-    std::cout << (left ? '\\' : '/');
-    std::cout << "-----";
-    std::cout << n->val << std::endl;
-    if (n->left)
-    {
-        PrintTreeImpl(n->left, true, indent + (left ? "      " : "|     "));
-    }
-}
- 
-void PrintTree(TreeNode* root)
-{
-    if (root->right) {
-        PrintTreeImpl(root->right, false, " ");
-    }
-    
-    std::cout << root->val << std::endl;
-    if (root->left) {
-        PrintTreeImpl(root->left, true, " ");
-    }
-}
+void PrintTree(TreeNode *root);
+} // namespace HELPER
+} // namespace LEETCODE
 
 #endif //LEETCODE_HEAD
