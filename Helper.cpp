@@ -140,3 +140,18 @@ void LEETCODE::HELPER::PrintTree(TreeNode* root)
         PrintTreeImpl(root->left, true, " ");
     }
 }
+
+TreeNode *LEETCODE::HELPER::GetSpecifiedValueNode(TreeNode *root, int32_t value)
+{
+    if (root == nullptr) {
+        return nullptr;
+    }
+
+    if (root->val == value) {
+        return root;
+    } else if (root->val < value) {
+        return GetSpecifiedValueNode(root->right, value);
+    } else {
+        return GetSpecifiedValueNode(root->left, value);
+    }
+}

@@ -6,9 +6,12 @@
 */
 
 #include "Helper.h"
+#include "Solution.h"
+
 using namespace std;
 using namespace LEETCODE::HELPER;
 
+#ifdef TEST
 int TestHelper()
 {
     int intTest = 0;
@@ -37,7 +40,7 @@ int TestHelper()
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
     
     // [[2.123,0.234,34], [2.123,0.234,34], [2.123,0.234,34]]
-    string inputFloatMat = R"([[2.123,0.234,34], [2.123,0.234,34], [2.123,0.234,34]])";
+    string inputFloatMat = R"([[-2.123,0.234,34], [2.123,0.234,34], [-2.123,0.234,34]])";
     auto floatMat = CreateMatrix<float>(inputFloatMat);
     PrintMatrix(floatMat);
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
@@ -47,8 +50,8 @@ int TestHelper()
     DestroyList(head);
     cout << "++++++++++++++++++++++++++++++++++++++" << endl;
 
-    string inputTree = "[1, 2, 3, 4, null, 5, 6]";
-    string inputTree2 = "[1, 2, 3, 4, null, 5, 6, 7, 8, 9, 10, 11, 12]";
+    string inputTree = "[1, -2, 3, 4, null, 5, 6]";
+    string inputTree2 = "[1, -2, 3, 4, null, 5, 6, 7, 8, 9, 10, 11, 12]";
     TreeNode *root = CreateTree(inputTree2);
     PrintTree(root);
     DestroyTree(root);
@@ -56,10 +59,97 @@ int TestHelper()
 
     return 0;
 }
+#endif
+
+class Solution235 {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root) return root;
+        if(p->val<root->val&&q->val<root->val)
+            return lowestCommonAncestor(root->left, p, q);
+        if(p->val>root->val&&q->val>root->val)
+            return lowestCommonAncestor(root->right, p, q);
+        return root;
+    }
+};
+
+class Solution418 {
+public:
+    bool isValid(vector<int> &pos, int &wordInd)
+    {
+        if (cols - pos[1] == sentence[wordInd].size()) {
+            cout << sentence[wordInd] << endl;
+            pos[0]++;
+            pos[1] = 0;
+            wordInd++;
+            return true;
+        } else if (cols - pos[1] > sentence[wordInd].size()) {
+            pos[1] += sentence[wordInd].size() + 1;
+            if (pos[1] == cols) {
+                pos[0]++;
+                pos[1] = 0;
+                cout << sentence[wordInd] << "-" << endl;
+            } else {
+                cout << sentence[wordInd] << "-";
+            }
+            wordInd++;
+            return true;
+        } else {
+            cout << endl;
+            pos[0]++;
+            pos[1] = 0;
+            return false;
+        }
+    }
+
+    int wordsTyping(vector<string>& sentence, int rows, int cols) {
+        this->rows = rows;
+        this->cols = cols;
+        this->sentence = sentence;
+        vector<int> pos(2, 0);
+        int wordInd = 0;
+        int ret = 0;
+        int loopCount = 0;
+        while (pos[0] < rows) {
+            if (isValid(pos, wordInd)) {
+                if (wordInd == sentence.size()) {
+                    ret++;
+                    wordInd = 0;
+                    if (pos[1] == 0 && pos[0] < rows && loopCount == 0) {
+                        loopCount = ret;
+                        int tmp = (rows - pos[0]) / loopCount;
+                        pos[0] += tmp * loopCount;
+                        ret += tmp * loopCount;
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    int rows;
+    int cols;
+    vector<string> sentence;
+};
+
 
 int main()
 {
-    TestHelper();
+
+    // Solution235 so;
+    // auto input = CreateTree("[6,2,8,0,4,7,9,null,null,3,5]");
+    // PrintTree(input);
+
+    // auto p = GetSpecifiedValueNode(input, 2);
+    // auto q = GetSpecifiedValueNode(input, 8);
+
+    // auto ret = so.lowestCommonAncestor(input, p, q);
+    // PrintValue(ret->val, "result ");
+
+    Solution418 so;
+    vector<string> input = {"a", "b", "e"};
+    PrintValue(so.wordsTyping(input, 10000, 7));
 
     system("pause");
     return 0;
